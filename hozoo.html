@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🤖 LORDHOZOO UNLIMITED BOT v8.0</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #ff0033;
+            --secondary: #990000;
+            --dark: #0a0a0a;
+            --darker: #000000;
+            --light: #ffffff;
+            --gray: #333333;
+            --accent: #ff3366;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
+            min-height: 100vh;
+            color: var(--light);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(255, 0, 51, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(153, 0, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(255, 51, 102, 0.05) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header & Navigation */
+        .header {
+            background: rgba(10, 10, 10, 0.9);
+            padding: 15px 30px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(255, 0, 51, 0.3);
+            border: 1px solid var(--primary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            text-shadow: 0 0 10px rgba(255, 0, 51, 0.7);
+        }
+
+        .logo-text h1 {
+            color: var(--light);
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        }
+
+        .logo-text p {
+            color: var(--primary);
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .status-info {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px 15px;
+            background: rgba(255, 0, 51, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 0, 51, 0.3);
+        }
+
+        .info-label {
+            font-size: 0.8rem;
+            color: #ccc;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            font-size: 1rem;
+            font-weight: bold;
+            color: var(--light);
+        }
+
+        #connectionStatus {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: bold;
+            padding: 8px 15px;
+            border-radius: 20px;
+            background: rgba(255, 0, 51, 0.2);
+            border: 1px solid var(--primary);
+        }
+
+        .status-online {
+            color: #00ff00;
+            text-shadow: 0 0 5px #00ff00;
+        }
+
+        .status-offline {
+            color: var(--primary);
+            text-shadow: 0 0 5px var(--primary);
+        }
+
+        .status-connecting {
+            color: #ff9900;
+            text-shadow: 0 0 5px #ff9900;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        /* Navigation */
+        .nav-tabs {
+            display: flex;
+            background: rgba(10, 10, 10, 0.9);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            padding: 5px;
+            border: 1px solid var(--gray);
+            overflow-x: auto;
+        }
+
+        .nav-tab {
+            flex: 1;
+            padding: 12px 20px;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .nav-tab:hover {
+            background: rgba(255, 0, 51, 0.2);
+        }
+
+        .nav-tab.active {
+            background: var(--primary);
+            color: var(--dark);
+            box-shadow: 0 0 10px rgba(255, 0, 51, 0.7);
+        }
+
+        /* Panels */
+        .panel {
+            background: rgba(10, 10, 10, 0.8);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--gray);
+            display: none;
+        }
+
+        .panel.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .panel h2 {
+            margin-bottom: 20px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            border-bottom: 1px solid var(--gray);
+            padding-bottom: 10px;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 0, 51, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ff0000, #990000);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: linear-gradient(135deg, #ff3333, #cc0000);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.4);
+        }
+
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 12px;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        /* Connection Panel */
+        .connection-options {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .qr-container, .pairing-container {
+            text-align: center;
+            padding: 20px;
+            background: rgba(20, 20, 20, 0.7);
+            border-radius: 10px;
+            border: 1px solid var(--gray);
+            margin: 0 auto;
+        }
+
+        #qrcode {
+            margin: 0 auto 15px;
+            padding: 10px;
+            background: white;
+            border-radius: 10px;
+            display: inline-block;
+        }
+
+        .pairing-code {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--light);
+            background: rgba(255, 0, 51, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border: 2px dashed var(--primary);
+            letter-spacing: 3px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Report Types */
+        .report-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .report-type {
+            background: rgba(20, 20, 20, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .report-type:hover {
+            background: rgba(255, 0, 51, 0.1);
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+
+        .report-type.active {
+            border-color: var(--primary);
+            background: rgba(255, 0, 51, 0.2);
+            box-shadow: 0 5px 15px rgba(255, 0, 51, 0.3);
+        }
+
+        .report-type i {
+            font-size: 2rem;
+            color: var(--primary);
+        }
+
+        .report-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        input {
+            padding: 12px;
+            border: 2px solid var(--gray);
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+            background: rgba(20, 20, 20, 0.7);
+            color: var(--light);
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(255, 0, 51, 0.3);
+        }
+
+        /* Progress */
+        .progress-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 15px;
+            background: rgba(20, 20, 20, 0.7);
+            border-radius: 10px;
+            border: 1px solid var(--gray);
+        }
+
+        .stat-label {
+            display: block;
+            font-size: 12px;
+            color: #ccc;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .stat-value.success {
+            color: #00ff00;
+            text-shadow: 0 0 5px #00ff00;
+        }
+
+        .stat-value.failed {
+            color: var(--primary);
+            text-shadow: 0 0 5px var(--primary);
+        }
+
+        .progress-bar-container {
+            background: rgba(20, 20, 20, 0.7);
+            border-radius: 10px;
+            height: 20px;
+            margin-bottom: 10px;
+            overflow: hidden;
+            border: 1px solid var(--gray);
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, var(--primary), #ff3366);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .progress-text {
+            text-align: center;
+            font-size: 14px;
+            color: #ccc;
+        }
+
+        /* Log */
+        .log-container {
+            background: rgba(0, 0, 0, 0.8);
+            color: #ccc;
+            padding: 15px;
+            border-radius: 8px;
+            height: 300px;
+            overflow-y: auto;
+            margin-bottom: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            border: 1px solid var(--gray);
+        }
+
+        .log-entry {
+            margin-bottom: 5px;
+            padding: 5px;
+            border-radius: 3px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .log-entry:nth-child(odd) {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .log-time {
+            color: var(--primary);
+            min-width: 80px;
+        }
+
+        .log-message.success {
+            color: #00ff00;
+        }
+
+        .log-message.error {
+            color: var(--primary);
+        }
+
+        .log-message.warning {
+            color: #ff9900;
+        }
+
+        .log-message.info {
+            color: #66ccff;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #ccc;
+            font-size: 14px;
+            border-top: 1px solid var(--gray);
+            margin-top: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .status-info {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .connection-options {
+                flex-direction: column;
+            }
+            
+            .report-types {
+                grid-template-columns: 1fr;
+            }
+            
+            .progress-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-tabs {
+                flex-wrap: wrap;
+            }
+            
+            .nav-tab {
+                flex: 1 0 45%;
+                margin-bottom: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">🦊</div>
+                <div class="logo-text">
+                    <h1>LORDHOZOO UNLIMITED BOT v8.0</h1>
+                    <p>Enhanced Report System Edition</p>
+                </div>
+            </div>
+            <div class="status-info">
+                <div class="info-item">
+                    <span class="info-label">WAKTU</span>
+                    <span class="info-value" id="currentTime">00:00:00</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">TANGGAL</span>
+                    <span class="info-value" id="currentDate">DD/MM/YYYY</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">PROXIES</span>
+                    <span class="info-value" id="proxyCount">0</span>
+                </div>
+                <div id="connectionStatus" class="status-offline">
+                    <i class="fas fa-circle"></i> Offline
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <nav class="nav-tabs">
+            <div class="nav-tab active" data-tab="connection">
+                <i class="fas fa-plug"></i> Koneksi
+            </div>
+            <div class="nav-tab" data-tab="report">
+                <i class="fas fa-flag"></i> Report System
+            </div>
+            <div class="nav-tab" data-tab="progress">
+                <i class="fas fa-chart-bar"></i> Progress
+            </div>
+            <div class="nav-tab" data-tab="logs">
+                <i class="fas fa-terminal"></i> System Log
+            </div>
+            <div class="nav-tab" data-tab="tiktok">
+                <i class="fab fa-tiktok"></i> TikTok Report
+            </div>
+            <div class="nav-tab" data-tab="settings">
+                <i class="fas fa-cog"></i> Settings
+            </div>
+        </nav>
+
+        <!-- Connection Panel -->
+        <section id="connectionPanel" class="panel active">
+            <h2><i class="fas fa-plug"></i> Koneksi WhatsApp</h2>
+            <div class="connection-options">
+                <button id="qrBtn" class="btn btn-primary">
+                    <i class="fas fa-qrcode"></i> QR Code
+                </button>
+                <button id="pairingBtn" class="btn btn-secondary">
+                    <i class="fas fa-code"></i> Pairing Code
+                </button>
+            </div>
+            
+            <div id="qrContainer" class="qr-container hidden">
+                <div id="qrcode"></div>
+                <p>Scan QR code dengan WhatsApp</p>
+            </div>
+            
+            <div id="pairingContainer" class="pairing-container hidden">
+                <input type="text" id="phoneNumber" placeholder="62xxx (tanpa +)">
+                <button id="generatePairing" class="btn btn-primary">
+                    Generate Pairing Code
+                </button>
+                <div id="pairingCode" class="pairing-code hidden"></div>
+            </div>
+        </section>
+
+        <!-- Report Panel -->
+        <section id="reportPanel" class="panel">
+            <h2><i class="fas fa-flag"></i> Report System</h2>
+            
+            <div class="report-types">
+                <div class="report-type" data-type="nomor">
+                    <i class="fas fa-phone"></i>
+                    <span>Report Nomor</span>
+                </div>
+                <div class="report-type" data-type="grup">
+                    <i class="fas fa-users"></i>
+                    <span>Bangrup Report</span>
+                </div>
+                <div class="report-type" data-type="saluran">
+                    <i class="fas fa-broadcast-tower"></i>
+                    <span>Bansaluran Report</span>
+                </div>
+                <div class="report-type" data-type="link">
+                    <i class="fas fa-link"></i>
+                    <span>Link Report</span>
+                </div>
+            </div>
+
+            <div id="reportForm" class="report-form hidden">
+                <input type="text" id="reportTarget" placeholder="Masukkan target...">
+                <input type="number" id="reportCount" placeholder="Jumlah report" value="50" min="1" max="1000">
+                <button id="startReport" class="btn btn-danger">
+                    <i class="fas fa-play"></i> Start Report
+                </button>
+            </div>
+        </section>
+
+        <!-- Progress Panel -->
+        <section id="progressPanel" class="panel">
+            <h2><i class="fas fa-chart-bar"></i> Progress Report</h2>
+            <div class="progress-stats">
+                <div class="stat">
+                    <span class="stat-label">Total Reports</span>
+                    <span id="totalReports" class="stat-value">0</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Success</span>
+                    <span id="successReports" class="stat-value success">0</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Failed</span>
+                    <span id="failedReports" class="stat-value failed">0</span>
+                </div>
+            </div>
+            <div class="progress-bar-container">
+                <div id="progressBar" class="progress-bar"></div>
+            </div>
+            <div id="progressText" class="progress-text">Menunggu aksi...</div>
+        </section>
+
+        <!-- Log Panel -->
+        <section id="logsPanel" class="panel">
+            <h2><i class="fas fa-terminal"></i> System Log</h2>
+            <div id="logContainer" class="log-container">
+                <div class="log-entry">
+                    <span class="log-time">[00:00:00]</span>
+                    <span class="log-message info">Sistem LORDHOZOO ATTACKER 2025...</span>
+                </div>
+            </div>
+            <button id="clearLog" class="btn btn-small">
+                <i class="fas fa-trash"></i> Clear Log
+            </button>
+        </section>
+
+        <!-- TikTok Panel -->
+        <section id="tiktokPanel" class="panel">
+            <h2><i class="fab fa-tiktok"></i> TikTok Mass Report</h2>
+            <div class="report-form">
+                <select id="tiktokType" class="btn-secondary" style="padding: 12px; width: 100%;">
+                    <option value="username">Username TikTok</option>
+                    <option value="video">Link Video</option>
+                </select>
+                <input type="text" id="tiktokTarget" placeholder="Masukkan target TikTok...">
+                <input type="number" id="tiktokCount" placeholder="Jumlah report" value="100" min="1" max="500">
+                <button id="startTikTokReport" class="btn btn-danger">
+                    <i class="fab fa-tiktok"></i> Start TikTok Report
+                </button>
+            </div>
+        </section>
+
+        <!-- Settings Panel -->
+        <section id="settingsPanel" class="panel">
+            <h2><i class="fas fa-cog"></i> Settings</h2>
+            <div class="report-form">
+                <div class="info-item" style="margin-bottom: 15px;">
+                    <span class="info-label">OWNER NUMBER</span>
+                    <span class="info-value">628999859595</span>
+                </div>
+                <div class="info-item" style="margin-bottom: 15px;">
+                    <span class="info-label">BOT VERSION</span>
+                    <span class="info-value">v8.0 ENHANCED</span>
+                </div>
+                <div class="info-item" style="margin-bottom: 15px;">
+                    <span class="info-label">CONTACT EMAIL</span>
+                    <span class="info-value">lordhozoo8@gmail.com</span>
+                </div>
+                <button id="resetStats" class="btn btn-secondary">
+                    <i class="fas fa-redo"></i> Reset Statistics
+                </button>
+                <button id="exportLogs" class="btn btn-secondary">
+                    <i class="fas fa-download"></i> Export Logs
+                </button>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2024 LORDHOZOO UNLIMITED BOT v8.0 | 
+                <span id="sessionId">Session: ...</span> | 
+                <span id="botStatus">Status: Active</span>
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        class WhatsAppBotWeb {
+            constructor() {
+                this.socket = null;
+                this.isConnected = false;
+                this.currentReportType = null;
+                this.reportStats = {
+                    total: 0,
+                    success: 0,
+                    failed: 0
+                };
+                this.proxyList = [];
+                this.sessionId = this.generateSessionId();
+                this.currentTab = 'connection';
+                
+                this.init();
+            }
+
+            init() {
+                this.bindEvents();
+                this.updateDateTime();
+                this.updateUI();
+                this.addLog('Sistem LORDHOZOO BOT v8.0 diinisialisasi', 'info');
+                this.loadProxyList();
+                
+                // Update waktu setiap detik
+                setInterval(() => this.updateDateTime(), 1000);
+            }
+
+            bindEvents() {
+                // Navigation tabs
+                document.querySelectorAll('.nav-tab').forEach(tab => {
+                    tab.addEventListener('click', (e) => this.switchTab(e.currentTarget.dataset.tab));
+                });
+
+                // Connection buttons
+                document.getElementById('qrBtn').addEventListener('click', () => this.showQRConnection());
+                document.getElementById('pairingBtn').addEventListener('click', () => this.showPairingConnection());
+                document.getElementById('generatePairing').addEventListener('click', () => this.generatePairingCode());
+
+                // Report types
+                document.querySelectorAll('.report-type').forEach(type => {
+                    type.addEventListener('click', (e) => this.selectReportType(e.currentTarget));
+                });
+
+                // Report actions
+                document.getElementById('startReport').addEventListener('click', () => this.startReport());
+                document.getElementById('startTikTokReport').addEventListener('click', () => this.startTikTokReport());
+
+                // Utility
+                document.getElementById('clearLog').addEventListener('click', () => this.clearLog());
+                document.getElementById('resetStats').addEventListener('click', () => this.resetStats());
+                document.getElementById('exportLogs').addEventListener('click', () => this.exportLogs());
+            }
+
+            switchTab(tabName) {
+                // Update active tab
+                document.querySelectorAll('.nav-tab').forEach(tab => {
+                    tab.classList.remove('active');
+                });
+                document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+                
+                // Show corresponding panel
+                document.querySelectorAll('.panel').forEach(panel => {
+                    panel.classList.remove('active');
+                });
+                document.getElementById(`${tabName}Panel`).classList.add('active');
+                
+                this.currentTab = tabName;
+                this.addLog(`Beralih ke tab: ${tabName}`, 'info');
+            }
+
+            generateSessionId() {
+                return 'session_' + Math.random().toString(36).substr(2, 9);
+            }
+
+            updateDateTime() {
+                const now = new Date();
+                document.getElementById('currentTime').textContent = now.toLocaleTimeString();
+                document.getElementById('currentDate').textContent = now.toLocaleDateString('id-ID', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+            }
+
+            async showQRConnection() {
+                document.getElementById('pairingContainer').classList.add('hidden');
+                document.getElementById('qrContainer').classList.remove('hidden');
+                
+                this.addLog('Memulai koneksi QR Code...', 'info');
+                await this.connectWhatsApp('qr');
+            }
+
+            async showPairingConnection() {
+                document.getElementById('qrContainer').classList.add('hidden');
+                document.getElementById('pairingContainer').classList.remove('hidden');
+                this.addLog('Mode Pairing Code aktif', 'info');
+            }
+
+            async generatePairingCode() {
+                const phoneNumber = document.getElementById('phoneNumber').value;
+                if (!phoneNumber) {
+                    this.addLog('Masukkan nomor WhatsApp terlebih dahulu', 'error');
+                    return;
+                }
+
+                if (!phoneNumber.startsWith('62')) {
+                    this.addLog('Nomor harus dimulai dengan 62', 'error');
+                    return;
+                }
+
+                this.addLog(`Meminta pairing code untuk: ${phoneNumber}`, 'info');
+                
+                // Simulasi generate pairing code
+                const pairingCode = this.generateRandomPairingCode();
+                document.getElementById('pairingCode').textContent = pairingCode;
+                document.getElementById('pairingCode').classList.remove('hidden');
+                
+                this.addLog(`Pairing Code: ${pairingCode}`, 'success');
+                await this.connectWhatsApp('pairing');
+            }
+
+            generateRandomPairingCode() {
+                const code = Math.random().toString(36).substr(2, 8).toUpperCase();
+                return code.match(/.{1,4}/g).join(' - ');
+            }
+
+            async connectWhatsApp(mode) {
+                this.updateConnectionStatus('connecting');
+                this.addLog(`Menghubungkan WhatsApp (${mode})...`, 'info');
+
+                try {
+                    // Simulasi koneksi
+                    await this.delay(2000);
+                    
+                    if (mode === 'qr') {
+                        this.generateQRCode();
+                    }
+
+                    // Simulasi koneksi berhasil setelah 5 detik
+                    setTimeout(() => {
+                        this.updateConnectionStatus('online');
+                        this.addLog('WhatsApp berhasil terhubung!', 'success');
+                    }, 5000);
+
+                } catch (error) {
+                    this.addLog(`Error koneksi: ${error.message}`, 'error');
+                    this.updateConnectionStatus('offline');
+                }
+            }
+
+            generateQRCode() {
+                const qrContainer = document.getElementById('qrcode');
+                qrContainer.innerHTML = '';
+                
+                // Generate random QR code (simulasi)
+                const qr = qrcode(0, 'L');
+                qr.addData('https://whatsapp.com/qr/' + Math.random().toString(36).substr(2));
+                qr.make();
+                
+                qrContainer.innerHTML = qr.createImgTag(4);
+            }
+
+            selectReportType(element) {
+                document.querySelectorAll('.report-type').forEach(type => {
+                    type.classList.remove('active');
+                });
+                
+                element.classList.add('active');
+                this.currentReportType = element.dataset.type;
+                
+                document.getElementById('reportForm').classList.remove('hidden');
+                document.getElementById('reportTarget').placeholder = this.getTargetPlaceholder();
+                
+                this.addLog(`Jenis report dipilih: ${this.currentReportType}`, 'info');
+            }
+
+            getTargetPlaceholder() {
+                const placeholders = {
+                    'nomor': '62xxx (nomor WhatsApp)',
+                    'grup': 'https://chat.whatsapp.com/...',
+                    'saluran': 'https://whatsapp.com/channel/...',
+                    'link': 'https://whatsapp.com/dl/...'
+                };
+                return placeholders[this.currentReportType];
+            }
+
+            async startReport() {
+                const target = document.getElementById('reportTarget').value;
+                const count = parseInt(document.getElementById('reportCount').value) || 50;
+
+                if (!target) {
+                    this.addLog('Masukkan target report terlebih dahulu', 'error');
+                    return;
+                }
+
+                if (!this.currentReportType) {
+                    this.addLog('Pilih jenis report terlebih dahulu', 'error');
+                    return;
+                }
+
+                this.addLog(`Memulai report ${this.currentReportType} untuk: ${target}`, 'warning');
+                this.switchTab('progress');
+                await this.executeMassReport(target, count);
+            }
+
+            async startTikTokReport() {
+                const target = document.getElementById('tiktokTarget').value;
+                const count = parseInt(document.getElementById('tiktokCount').value) || 100;
+                const type = document.getElementById('tiktokType').value;
+
+                if (!target) {
+                    this.addLog('Masukkan target TikTok terlebih dahulu', 'error');
+                    return;
+                }
+
+                this.addLog(`Memulai TikTok report (${type}) untuk: ${target}`, 'warning');
+                this.switchTab('progress');
+                await this.executeTikTokReport(target, count, type);
+            }
+
+            async executeMassReport(target, totalCount) {
+                this.resetReportStats();
+                const progressBar = document.getElementById('progressBar');
+                const progressText = document.getElementById('progressText');
+
+                for (let i = 0; i < totalCount; i++) {
+                    const success = await this.sendSingleReport(target);
+                    
+                    this.reportStats.total++;
+                    if (success) {
+                        this.reportStats.success++;
+                        this.addLog(`Report ${i+1} berhasil`, 'success');
+                    } else {
+                        this.reportStats.failed++;
+                        this.addLog(`Report ${i+1} gagal`, 'error');
+                    }
+
+                    // Update progress
+                    const progress = ((i + 1) / totalCount) * 100;
+                    progressBar.style.width = `${progress}%`;
+                    progressText.textContent = `Progress: ${i+1}/${totalCount} (${Math.round(progress)}%)`;
+
+                    this.updateReportStats();
+
+                    // Delay antara report
+                    await this.delay(500 + Math.random() * 1000);
+                }
+
+                this.addLog(`Mass report selesai! Success: ${this.reportStats.success}, Failed: ${this.reportStats.failed}`, 'success');
+            }
+
+            async executeTikTokReport(target, totalCount, type) {
+                this.resetReportStats();
+                const progressBar = document.getElementById('progressBar');
+                const progressText = document.getElementById('progressText');
+
+                for (let i = 0; i < totalCount; i++) {
+                    const success = await this.sendTikTokReport(target, type);
+                    
+                    this.reportStats.total++;
+                    if (success) {
+                        this.reportStats.success++;
+                        this.addLog(`TikTok Report ${i+1} berhasil`, 'success');
+                    } else {
+                        this.reportStats.failed++;
+                        this.addLog(`TikTok Report ${i+1} gagal`, 'error');
+                    }
+
+                    // Update progress
+                    const progress = ((i + 1) / totalCount) * 100;
+                    progressBar.style.width = `${progress}%`;
+                    progressText.textContent = `Progress: ${i+1}/${totalCount} (${Math.round(progress)}%)`;
+
+                    this.updateReportStats();
+
+                    // Delay antara report
+                    await this.delay(300 + Math.random() * 700);
+                }
+
+                this.addLog(`TikTok report selesai! Success: ${this.reportStats.success}, Failed: ${this.reportStats.failed}`, 'success');
+            }
+
+            async sendSingleReport(target) {
+                try {
+                    // Simulasi pengiriman report
+                    await this.delay(100 + Math.random() * 400);
+                    
+                    // Success rate 80% untuk simulasi
+                    return Math.random() < 0.8;
+                } catch (error) {
+                    return false;
+                }
+            }
+
+            async sendTikTokReport(target, type) {
+                try {
+                    // Simulasi pengiriman report TikTok
+                    await this.delay(100 + Math.random() * 300);
+                    
+                    // Success rate 75% untuk simulasi TikTok
+                    return Math.random() < 0.75;
+                } catch (error) {
+                    return false;
+                }
+            }
+
+            resetReportStats() {
+                this.reportStats = { total: 0, success: 0, failed: 0 };
+                this.updateReportStats();
+                document.getElementById('progressBar').style.width = '0%';
+                document.getElementById('progressText').textContent = 'Memulai report...';
+            }
+
+            resetStats() {
+                this.resetReportStats();
+                this.addLog('Statistics telah direset', 'info');
+            }
+
+            updateReportStats() {
+                document.getElementById('totalReports').textContent = this.reportStats.total;
+                document.getElementById('successReports').textContent = this.reportStats.success;
+                document.getElementById('failedReports').textContent = this.reportStats.failed;
+            }
+
+            updateConnectionStatus(status) {
+                const statusElement = document.getElementById('connectionStatus');
+                statusElement.className = `status-${status}`;
+                
+                const statusText = {
+                    'online': '<i class="fas fa-circle"></i> Online',
+                    'offline': '<i class="fas fa-circle"></i> Offline', 
+                    'connecting': '<i class="fas fa-circle"></i> Connecting...'
+                };
+                
+                statusElement.innerHTML = statusText[status];
+                this.isConnected = status === 'online';
+            }
+
+            addLog(message, type = 'info') {
+                const logContainer = document.getElementById('logContainer');
+                const time = new Date().toLocaleTimeString();
+                
+                const logEntry = document.createElement('div');
+                logEntry.className = 'log-entry';
+                logEntry.innerHTML = `
+                    <span class="log-time">[${time}]</span>
+                    <span class="log-message ${type}">${message}</span>
+                `;
+                
+                logContainer.appendChild(logEntry);
+                logContainer.scrollTop = logContainer.scrollHeight;
+            }
+
+            clearLog() {
+                document.getElementById('logContainer').innerHTML = '';
+                this.addLog('Log cleared', 'info');
+            }
+
+            exportLogs() {
+                this.addLog('Fitur export logs dalam pengembangan', 'warning');
+            }
+
+            async loadProxyList() {
+                // Simulasi loading proxy list
+                this.addLog('Memuat proxy list...', 'info');
+                await this.delay(1000);
+                
+                this.proxyList = Array.from({length: 157}, (_, i) => 
+                    `proxy-${i+1}.server.com:8080`
+                );
+                
+                document.getElementById('proxyCount').textContent = this.proxyList.length;
+                this.addLog(`${this.proxyList.length} proxies berhasil dimuat`, 'success');
+            }
+
+            updateUI() {
+                document.getElementById('sessionId').textContent = `Session: ${this.sessionId}`;
+            }
+
+            delay(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            }
+        }
+
+        // Initialize application ketika DOM ready
+        document.addEventListener('DOMContentLoaded', () => {
+            window.whatsappBot = new WhatsAppBotWeb();
+        });
+
+        // QR Code generator helper
+        function qrcode(typeNumber, errorCorrectionLevel) {
+            return {
+                addData(data) { this.data = data; return this; },
+                make() { this.made = true; return this; },
+                createImgTag(cellSize) {
+                    return `<img src="https://api.qrserver.com/v1/create-qr-code/?size=${cellSize*25}x${cellSize*25}&data=${encodeURIComponent(this.data)}" alt="QR Code">`;
+                }
+            };
+        }
+    </script>
+</body>
+</html>
